@@ -1,19 +1,20 @@
-name: Flutter CI
+name: Flutter CI/CD
 
 on:
   push:
-    branches:
-      - main  # Make sure this matches your branch name (usually 'main' or 'master')
-  pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
+
+# This allows the robot to create a "Release" on your behalf
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -25,8 +26,20 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Install dependencies
+      - name: Get dependencies
         run: flutter pub get
 
       - name: Build APK
         run: flutter build apk --release
+
+      # THIS IS THE NEW CD STEP
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/app/outputs/flutter-apk/app-release.apk
+          tag_name: v${{ github.run_number }}
+          name: Release Build ${{ github.run_number }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
