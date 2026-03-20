@@ -48,7 +48,6 @@ class _LandingPageState extends State<LandingPage> {
 
   void _loadContentAndStartTimer() {
     _loadRandomContent();
-    // Refresh content every 8 seconds
     _timer = Timer.periodic(const Duration(seconds: 60), (_) {
       _loadRandomContent();
     });
@@ -59,7 +58,6 @@ class _LandingPageState extends State<LandingPage> {
       _isLoading = true;
     });
 
-    // Get random quote
     _currentQuote =
         motivationalQuotes[Random().nextInt(motivationalQuotes.length)];
 
