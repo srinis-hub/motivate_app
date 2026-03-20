@@ -103,7 +103,7 @@ class _LandingPageState extends State<LandingPage> {
             end: Alignment.bottomRight,
             colors: [
               Colors.deepPurple.withOpacity(0.1),
-              Colors.blue.withOpacity(0.1),
+              Colors.pink.withOpacity(0.1),
             ],
           ),
         ),
